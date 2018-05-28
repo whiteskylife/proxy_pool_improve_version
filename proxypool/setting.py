@@ -1,17 +1,21 @@
 # Redis数据库地址
-REDIS_HOST = '127.0.0.1'
+REDIS_HOST = '192.168.1.110'
 
 # Redis端口
 REDIS_PORT = 6379
 
 # Redis密码，如无填None
-REDIS_PASSWORD = None
+REDIS_PASSWORD = 'redis-pass'
 
-REDIS_KEY = 'proxies'
+REDIS_KEY = 'proxies_2'
 
 # 代理分数
-MAX_SCORE = 100
-MIN_SCORE = 0
+# 初始分数设置为INITIAL_SCORE，检测代理是否有效：
+# 如果：
+#   通过就设置为MAX_SCORE；
+#   不通过，此时代理分数大于MIN_SCORE，那么分数-1；否则，直接移除
+MAX_SCORE = 10
+MIN_SCORE = 8
 INITIAL_SCORE = 10
 
 VALID_STATUS_CODES = [200, 302]

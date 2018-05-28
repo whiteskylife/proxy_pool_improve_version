@@ -13,7 +13,7 @@ from proxypool.setting import *
 class Tester(object):
     def __init__(self):
         self.redis = RedisClient()
-    
+
     async def test_single_proxy(self, proxy):
         """
         测试单个代理
@@ -52,9 +52,9 @@ class Tester(object):
                 stop = min(i + BATCH_TEST_SIZE, count)
                 print('正在测试第', start + 1, '-', stop, '个代理')
                 test_proxies = self.redis.batch(start, stop)
-                loop = asyncio.get_event_loop()
-                tasks = [self.test_single_proxy(proxy) for proxy in test_proxies]
-                loop.run_until_complete(asyncio.wait(tasks))
+                loop = asyncio.get_event_loop()                 # 创建事件循环
+                tasks = [self.test_single_proxy(proxy) for proxy in test_proxies]       # 创建任务列表
+                loop.run_until_complete(asyncio.wait(tasks))        # 循环执行
                 sys.stdout.flush()
                 time.sleep(5)
         except Exception as e:
