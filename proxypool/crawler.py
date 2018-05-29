@@ -8,7 +8,7 @@ class ProxyMetaclass(type):
     def __new__(cls, name, bases, attrs):
         count = 0
         attrs['__CrawlFunc__'] = []
-        for k, v in attrs.items():
+        for k, v in attrs.items():  #
             if 'crawl_' in k:
                 attrs['__CrawlFunc__'].append(k)
                 count += 1
@@ -23,6 +23,18 @@ class Crawler(object, metaclass=ProxyMetaclass):
             print('成功获取到代理', proxy)
             proxies.append(proxy)
         return proxies
+
+    def crawl_xicidaili(self):
+        for i in range(1, 3):
+            start_url = 'http://www.xicidaili.com/nn/{}'.format(i)
+            headers = {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.104 Safari/537.36 Core/1.53.4882.400 QQBrowser/9.7.13059.400'
+            }
+            html = get_page(start_url, options=headers)
+            pattern = re.compile('<tr class.*?<td>(\d+\.\d+\.\d+\.\d+)</td>.*?<td>(\d+)</td>.*?</tr>', re.S)
+            result = pattern.findall(html)
+            for i in result:
+                yield ':'.join([i[0], i[1]])
 
     # def crawl_daxiang(self):
     #     url = 'http://vtp.daxiangdaili.com/ip/?tid=559363191592228&num=50&filter=on'
@@ -121,6 +133,7 @@ class Crawler(object, metaclass=ProxyMetaclass):
     #             yield result.replace(' ', '')
 
     def crawl_kxdaili(self):
+        """待修改"""
         for i in range(1, 11):
             start_url = 'http://www.kxdaili.com/ipList/{}.html#ip'.format(i)
             html = get_page(start_url)
@@ -167,28 +180,28 @@ class Crawler(object, metaclass=ProxyMetaclass):
                     address_port = address + ':' + port
                     yield address_port.replace(' ', '')
 
-    def crawl_xicidaili(self):
-        for i in range(1, 3):
-            start_url = 'http://www.xicidaili.com/nn/{}'.format(i)
-            headers = {
-                'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
-                'Cookie': '_free_proxy_session=BAh7B0kiD3Nlc3Npb25faWQGOgZFVEkiJWRjYzc5MmM1MTBiMDMzYTUzNTZjNzA4NjBhNWRjZjliBjsAVEkiEF9jc3JmX3Rva2VuBjsARkkiMUp6S2tXT3g5a0FCT01ndzlmWWZqRVJNek1WanRuUDBCbTJUN21GMTBKd3M9BjsARg%3D%3D--2a69429cb2115c6a0cc9a86e0ebe2800c0d471b3',
-                'Host': 'www.xicidaili.com',
-                'Referer': 'http://www.xicidaili.com/nn/3',
-                'Upgrade-Insecure-Requests': '1',
-            }
-            html = get_page(start_url, options=headers)
-            if html:
-                find_trs = re.compile('<tr class.*?>(.*?)</tr>', re.S)
-                trs = find_trs.findall(html)
-                for tr in trs:
-                    find_ip = re.compile('<td>(\d+\.\d+\.\d+\.\d+)</td>')
-                    re_ip_address = find_ip.findall(tr)
-                    find_port = re.compile('<td>(\d+)</td>')
-                    re_port = find_port.findall(tr)
-                    for address, port in zip(re_ip_address, re_port):
-                        address_port = address + ':' + port
-                        yield address_port.replace(' ', '')
+    # def crawl_xicidaili(self):
+    #     for i in range(1, 3):
+    #         start_url = 'http://www.xicidaili.com/nn/{}'.format(i)
+    #         headers = {
+    #             'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8',
+    #             'Cookie': '_free_proxy_session=BAh7B0kiD3Nlc3Npb25faWQGOgZFVEkiJWRjYzc5MmM1MTBiMDMzYTUzNTZjNzA4NjBhNWRjZjliBjsAVEkiEF9jc3JmX3Rva2VuBjsARkkiMUp6S2tXT3g5a0FCT01ndzlmWWZqRVJNek1WanRuUDBCbTJUN21GMTBKd3M9BjsARg%3D%3D--2a69429cb2115c6a0cc9a86e0ebe2800c0d471b3',
+    #             'Host': 'www.xicidaili.com',
+    #             'Referer': 'http://www.xicidaili.com/nn/3',
+    #             'Upgrade-Insecure-Requests': '1',
+    #         }
+    #         html = get_page(start_url, options=headers)
+    #         if html:
+    #             find_trs = re.compile('<tr class.*?>(.*?)</tr>', re.S)
+    #             trs = find_trs.findall(html)
+    #             for tr in trs:
+    #                 find_ip = re.compile('<td>(\d+\.\d+\.\d+\.\d+)</td>')
+    #                 re_ip_address = find_ip.findall(tr)
+    #                 find_port = re.compile('<td>(\d+)</td>')
+    #                 re_port = find_port.findall(tr)
+    #                 for address, port in zip(re_ip_address, re_port):
+    #                     address_port = address + ':' + port
+    #                     yield address_port.replace(' ', '')
 
     def crawl_ip3366(self):
         for i in range(1, 4):

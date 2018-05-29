@@ -19,7 +19,7 @@ def get_page(url, options={}):
     print('正在抓取', url)
     try:
         response = requests.get(url, headers=headers)
-        print('抓取成功', url, response.status_code)
+        print('正在抓取：', url, response.status_code)
         if response.status_code == 200:
             return response.text
     except ConnectionError:

@@ -24,7 +24,7 @@ VALID_STATUS_CODES = [200, 302]
 POOL_UPPER_THRESHOLD = 50000
 
 # 检查周期
-TESTER_CYCLE = 20
+TESTER_CYCLE = 10
 # 获取周期
 GETTER_CYCLE = 300
 
@@ -42,3 +42,6 @@ API_ENABLED = True
 
 # 最大批测试量
 BATCH_TEST_SIZE = 10
+
+# Scheduler日志文件名：
+LOG_PATH = 'schedule_getter.log'
