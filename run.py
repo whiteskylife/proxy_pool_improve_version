@@ -6,10 +6,12 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer)
 
 
 def main():
+    s = Scheduler()
     try:
-        s = Scheduler()
         s.run()
-    except:
+        s.log().info('-------start process-------主进程开始运行...')
+    except Exception as e:
+        s.log().exception(e)
         main()
 
 

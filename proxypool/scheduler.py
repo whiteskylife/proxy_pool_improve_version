@@ -15,9 +15,9 @@ class Scheduler():
             os.mkdir('log')
         log_file_name = 'log/' + LOG_PATH
         log_file_1 = logging.FileHandler(log_file_name, 'a', encoding='utf-8')
-        fmt = logging.Formatter(fmt="%(asctime)s - %(levelname)s :  %(message)s")
+        fmt = logging.Formatter(fmt="%(asctime)s - %(name)s - %(levelname)s -%(module)s:  %(message)s")
         log_file_1.setFormatter(fmt)
-        logger1 = logging.Logger('run_log', level=logging.INFO)
+        logger1 = logging.Logger('run_log', level=logging.DEBUG)
         logger1.addHandler(log_file_1)
 
         return logger1
@@ -28,9 +28,11 @@ class Scheduler():
         """
         tester = Tester()
         while True:
-            print('测试器开始运行')
+            self.log().info('----测试器开始运行---')
             tester.run()
+            self.log().info('----测试器开始休眠----')
             time.sleep(cycle)
+            self.log().info('----测试器停止休眠----')
 
     def schedule_getter(self, cycle=GETTER_CYCLE):
         """
@@ -40,6 +42,7 @@ class Scheduler():
             getter = Getter()
             while True:
                 print('开始抓取代理')
+                self.log().info('--开始抓取代理--')
                 getter.run()
                 time.sleep(cycle)
         except Exception as e:
@@ -53,7 +56,7 @@ class Scheduler():
 
     def run(self):
         print('代理池开始运行')
-
+        self.log().info('----代理池开始运行----')
         if TESTER_ENABLED:
             tester_process = Process(target=self.schedule_tester)
             tester_process.start()

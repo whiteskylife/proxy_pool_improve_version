@@ -15,18 +15,19 @@ REDIS_KEY = 'proxies_2'
 #   通过就设置为MAX_SCORE；
 #   不通过，此时代理分数大于MIN_SCORE，那么分数-1；否则，直接移除
 MAX_SCORE = 10
-MIN_SCORE = 8
-INITIAL_SCORE = 10
+MIN_SCORE = 7
+INITIAL_SCORE = 9
 
 VALID_STATUS_CODES = [200, 302]
 
 # 代理池数量界限
-POOL_UPPER_THRESHOLD = 50000
+# POOL_UPPER_THRESHOLD = 50000
+POOL_UPPER_THRESHOLD = 2000
 
 # 检查周期
 TESTER_CYCLE = 10
 # 获取周期
-GETTER_CYCLE = 300
+GETTER_CYCLE = 600
 
 # 测试API，建议抓哪个网站测哪个
 TEST_URL = 'http://www.baidu.com'
@@ -41,7 +42,7 @@ GETTER_ENABLED = True
 API_ENABLED = True
 
 # 最大批测试量
-BATCH_TEST_SIZE = 10
+BATCH_TEST_SIZE = 100
 
 # Scheduler日志文件名：
 LOG_PATH = 'schedule_getter.log'

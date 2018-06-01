@@ -27,10 +27,7 @@ class Crawler(object, metaclass=ProxyMetaclass):
     def crawl_xicidaili(self):
         for i in range(1, 3):
             start_url = 'http://www.xicidaili.com/nn/{}'.format(i)
-            headers = {
-                'User-Agent': 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/53.0.2785.104 Safari/537.36 Core/1.53.4882.400 QQBrowser/9.7.13059.400'
-            }
-            html = get_page(start_url, options=headers)
+            html = get_page(start_url)
             pattern = re.compile('<tr class.*?<td>(\d+\.\d+\.\d+\.\d+)</td>.*?<td>(\d+)</td>.*?</tr>', re.S)
             result = pattern.findall(html)
             for i in result:
